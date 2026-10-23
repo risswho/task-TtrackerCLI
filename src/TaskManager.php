@@ -92,5 +92,25 @@ class TaskManager
         echo "Task added successfully (ID: {$id}\n";
     }
 
+    public function update(int $id, string $description) : void 
+    {
+        $description = trim($description);
+        if ($description === '') {
+            fwrite(STDERR, "Error: Deskripsi task tidak boleh kosong.\n");
+            exit(1);
+        }
+        
+        $index = $this->findIndexById($id);
+        if ($index === null) {
+            fwrite(STDERR, "Error: Task dengan ID {$id} tidak ditemukan.\n");
+            exit(1);
+        }
+
+        $this->tasks[$index]['description'] = $description;
+        $this->tasks[$index]['updateAt'] = date('c');
+
+        $this->saveTasks();
+        echo "Task {$id} berhasil diperbarui.\n";
+    }
     
 }
