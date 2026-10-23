@@ -112,5 +112,17 @@ class TaskManager
         $this->saveTasks();
         echo "Task {$id} berhasil diperbarui.\n";
     }
-    
+
+    public function delete(int $id) : void 
+    {
+        $index = $this->findIndexById($id);
+        if ($index === null) {
+            fwrite(STDERR, "Error: Task dengan ID {$id} tidak ditemukan.\n");
+            exit(1);
+        }    
+
+        array_splice($this->tasks, $index, 1);
+        $this->saveTasks();
+        echo "Task {$id} berhasil dihapus.\n";
+    }
 }
