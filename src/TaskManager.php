@@ -125,4 +125,25 @@ class TaskManager
         $this->saveTasks();
         echo "Task {$id} berhasil dihapus.\n";
     }
+
+    public function markStatus(int $id, string $status) : void 
+    {
+        $allowed = ['todo', 'in-progress', 'done'];
+        if (!in_array($status, $allowed, true)) {
+            fwrite(STDERR, "Error: Status tidak valid.\n");
+            exit(1);
+        }    
+
+        $index = $this->findIndexById($id);
+        if ($index === null) {
+            fwrite(STDERR, "Error: Task dengan ID {$id} tidak ditemukan.\n");
+            exit(1);
+        }
+
+        $this->tasks[$index]['status'] = $status;
+        $this->tasks['updateAt'] = date('c');
+
+        $this->saveTasks();
+        echo "Task {$id} ditandai sebagai '{$status}'.\n";
+    }
 }
