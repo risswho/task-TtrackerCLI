@@ -79,5 +79,18 @@ class TaskManager
 
         $id = $this->nextId();
         $now = date('c'); //ISO 8601
+
+        $this->tasks[] = [
+            'id' => $id,
+            'description' => $description,
+            'status' => 'todo',
+            'createdAt' => $now,
+            'updateAt' => $now,
+        ];
+
+        $this->saveTasks();
+        echo "Task added successfully (ID: {$id}\n";
     }
+
+    
 }
